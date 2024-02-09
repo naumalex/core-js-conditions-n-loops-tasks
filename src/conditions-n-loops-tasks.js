@@ -407,10 +407,6 @@ function getSpiralMatrix(size) {
  */
 function rotateMatrix(matrix) {
   const mtx = matrix;
-  let col = 0;
-  let row = 0;
-  let lastCol = matrix[0].length - 1;
-  let lastRow = matrix.length - 1;
   const res = [];
   for (let i = 0; i < matrix.length; i += 1) {
     const line = [];
@@ -420,29 +416,13 @@ function rotateMatrix(matrix) {
     res[i] = line;
   }
 
-  while (col < Math.floor(matrix.length / 2)) {
-    for (let i = col; i < lastCol; i += 1) {
-      res[i][lastRow] = matrix[row][i];
+  const n = mtx.length;
+  const m = mtx[0].length;
+  for (let i = 0; i < n; i += 1) {
+    for (let j = 0; j < m; j += 1) {
+      res[j][i] = mtx[m - 1 - i][j];
     }
-
-    for (let i = 0; i < lastRow; i += 1) {
-      res[lastRow][lastCol - i] = matrix[row + i][lastCol];
-    }
-
-    for (let i = lastRow; i > row; i -= 1) {
-      res[i][col] = matrix[lastRow][i];
-    }
-
-    for (let i = col; i < lastCol; i += 1) {
-      res[row][i] = matrix[lastRow - i][col];
-    }
-    lastCol -= 1;
-    lastRow -= 1;
-    col += 1;
-    row += 1;
   }
-  res[Math.floor(matrix[0].length / 2)][Math.floor(matrix.length / 2)] =
-    matrix[Math.floor(matrix[0].length / 2)][Math.floor(matrix.length / 2)];
 
   for (let i = 0; i < mtx.length; i += 1) {
     for (let j = 0; j < mtx[i].length; j += 1) {
