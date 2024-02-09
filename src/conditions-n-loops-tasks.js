@@ -447,8 +447,57 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function merge(left, right) {
+  const res = [];
+  let leftIndex = 0;
+  let rightIndex = 0;
+  let i = 0;
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if (left[leftIndex] <= right[rightIndex]) {
+      res[i] = left[leftIndex];
+      leftIndex += 1;
+    } else {
+      res[i] = right[rightIndex];
+      rightIndex += 1;
+    }
+    i += 1;
+  }
+  for (let j = leftIndex; j < left.length; j += 1) {
+    res[i] = left[j];
+    i += 1;
+  }
+  for (let j = rightIndex; j < right.length; j += 1) {
+    res[i] = right[j];
+    i += 1;
+  }
+  return res;
+}
+
+function sort(arr) {
+  const left = [];
+  const right = [];
+  if (arr.length <= 1) {
+    return arr;
+  }
+  const midIndex = Math.floor(arr.length / 2);
+  for (let i = 0; i < midIndex; i += 1) {
+    left[i] = arr[i];
+  }
+  for (let i = midIndex; i < arr.length; i += 1) {
+    right[i - midIndex] = arr[i];
+  }
+
+  const sorted = merge(sort(left), sort(right));
+  return sorted;
+}
+
+function sortByAsc(arr) {
+  const arrCopy = arr;
+  const sorted = sort(arr);
+  for (let i = 0; i < arr.length; i += 1) {
+    arrCopy[i] = sorted[i];
+  }
+  return arrCopy;
 }
 
 /**
@@ -468,8 +517,21 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  let newStr = str;
+  for (let j = 0; j < iterations; j += 1) {
+    let odd = '';
+    let even = '';
+    for (let i = 0; i < newStr.length; i += 1) {
+      if (i % 2 === 0) {
+        even = `${even}${newStr[i]}`;
+      } else {
+        odd = `${odd}${newStr[i]}`;
+      }
+    }
+    newStr = `${even}${odd}`;
+  }
+  return newStr;
 }
 
 /**
